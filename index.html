@@ -138,6 +138,68 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:
 .ld.h{background:rgba(240,64,72,.15);border:1px solid var(--red)}
 
 @media(max-width:768px){.grid4,.hp.show{grid-template-columns:1fr}.pills{display:none}.ttl{font-size:32px}.s{padding:70px 20px 60px}.site-links{display:none}.smg{grid-template-columns:1fr}}
+
+/* ─── SITEMAP V2 ─── */
+.sv2{max-width:1200px;margin:64px auto 0;padding-top:44px;border-top:1px solid var(--border2)}
+.sv2>h3{font-family:var(--serif);font-size:26px;color:#fff;margin-bottom:6px;font-weight:700}
+.sv2-sub{font-size:15px;color:var(--body2);margin-bottom:28px}
+/* Home node */
+.sv2-home{margin-bottom:20px}
+.sv2-hnode-root{display:inline-block;padding:11px 22px;background:var(--s3);border:1px solid rgba(255,255,255,.2);border-radius:8px}
+.sv2-hnode-root .sv2n-name{font-size:15px;font-weight:700;color:#fff;display:block}
+.sv2-hnode-root .sv2n-hint{font-size:10px;color:var(--muted);font-family:var(--mono);display:block;margin-top:2px}
+/* Section bar labels */
+.sv2-bar{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin:20px 0 10px;display:flex;align-items:center;gap:10px}
+.sv2-bar::after{content:'';flex:1;height:1px;background:var(--border2)}
+/* Column grid */
+.sv2-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:8px}
+.sv2-col{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.sv2-col-head{padding:9px 13px;border-bottom:1px solid var(--border2);border-top:3px solid rgba(228,30,38,.45);background:rgba(228,30,38,.06)}
+.sv2-col-head.ch-new{border-top-color:rgba(94,196,245,.45);background:rgba(94,196,245,.04)}
+.sv2-col-head.ch-prod{border-top-color:rgba(224,184,78,.45);background:rgba(224,184,78,.05)}
+.sv2-col-head.ch-teal{border-top-color:rgba(95,217,208,.45);background:rgba(95,217,208,.04)}
+.sv2-col-head-name{font-size:13px;font-weight:600;color:#fff}
+.sv2-col-body{padding:10px;display:flex;flex-direction:column;gap:6px}
+/* Child nodes */
+.sv2n{padding:6px 10px;background:var(--s2);border:1px solid var(--border);border-radius:5px;position:relative}
+.sv2n .sv2n-name{font-size:12px;font-weight:500;color:rgba(255,255,255,.85);display:block}
+.sv2n .sv2n-hint{font-size:10px;color:var(--muted);font-family:var(--mono);display:block;margin-top:1px}
+.sv2n.n2-new{background:rgba(94,196,245,.04);border-color:rgba(94,196,245,.28);border-style:dashed}
+.sv2n.n2-prod{background:rgba(224,184,78,.04);border-color:rgba(224,184,78,.28)}
+.sv2n.n2-prod .sv2n-name{color:rgba(255,255,255,.78)}
+/* Multi-page stacked box effect */
+.sv2n.is-multi,.sv2-cta-node.is-multi,.sv2-hn.is-multi{margin-top:7px;margin-right:7px}
+.sv2n.is-multi::before{content:'';position:absolute;inset:-1px;border:1px solid var(--border);border-radius:6px;background:var(--s2);transform:translate(4px,-4px);z-index:-1}
+.sv2n.is-multi::after{content:'';position:absolute;inset:-1px;border:1px solid rgba(255,255,255,.06);border-radius:7px;background:var(--surface);transform:translate(8px,-8px);z-index:-2}
+.sv2n.n2-new.is-multi::before{border-color:rgba(94,196,245,.22);border-style:dashed}
+.sv2n.n2-new.is-multi::after{border-color:rgba(94,196,245,.12);border-style:dashed}
+/* CTA nodes */
+.sv2-cta-bar{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:8px}
+.sv2-cta-node{padding:9px 16px;background:rgba(228,30,38,.1);border:1px dashed rgba(228,30,38,.4);border-radius:6px;font-size:13px;font-weight:600;color:#fff;position:relative}
+.sv2-cta-node .sv2n-hint{font-size:10px;color:rgba(255,255,255,.45);font-family:var(--mono);display:block;margin-top:2px;font-weight:400}
+.sv2-cta-node.is-multi::before{content:'';position:absolute;inset:-1px;border:1px dashed rgba(228,30,38,.3);border-radius:7px;background:rgba(228,30,38,.08);transform:translate(4px,-4px);z-index:-1}
+.sv2-cta-node.is-multi::after{content:'';position:absolute;inset:-1px;border:1px dashed rgba(228,30,38,.2);border-radius:8px;background:var(--surface);transform:translate(8px,-8px);z-index:-2}
+/* Hamburger chips */
+.sv2-ham-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.sv2-hn{padding:6px 12px;background:rgba(95,217,208,.04);border:1px dashed rgba(95,217,208,.25);border-radius:5px;font-size:12px;color:var(--body2);white-space:nowrap;position:relative}
+.sv2-hn.is-multi::before{content:'';position:absolute;inset:-1px;border:1px dashed rgba(95,217,208,.18);border-radius:6px;background:rgba(95,217,208,.03);transform:translate(4px,-4px);z-index:-1}
+.sv2-hn.is-multi::after{content:'';position:absolute;inset:-1px;border:1px dashed rgba(95,217,208,.1);border-radius:7px;background:var(--surface);transform:translate(8px,-8px);z-index:-2}
+/* Badge */
+.sv2b{display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;font-size:8px;font-weight:700;margin-left:4px;vertical-align:middle;position:relative;top:-1px}
+.sv2b-n{background:rgba(94,196,245,.25);color:#5EC4F5}
+.sv2b-p{background:rgba(224,184,78,.25);color:#E0B84E}
+/* Key */
+.sv2-key{margin-top:24px;padding-top:14px;border-top:1px solid var(--border2);display:flex;gap:14px;flex-wrap:wrap}
+.sv2-ki{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--sub)}
+.sv2-kb{width:20px;height:11px;border-radius:2px;border:1px solid;flex-shrink:0}
+.sv2-kb.kk-nav{background:rgba(228,30,38,.06);border-color:rgba(228,30,38,.35);border-top:3px solid rgba(228,30,38,.45)}
+.sv2-kb.kk-new{background:rgba(94,196,245,.04);border-color:rgba(94,196,245,.28);border-style:dashed}
+.sv2-kb.kk-prod{background:rgba(224,184,78,.04);border-color:rgba(224,184,78,.28)}
+.sv2-kb.kk-ham{background:rgba(95,217,208,.04);border-color:rgba(95,217,208,.25);border-style:dashed}
+.sv2-kb.kk-std{background:var(--s2);border-color:var(--border)}
+.sv2-multi-swatch{width:20px;height:11px;position:relative;display:inline-block;flex-shrink:0}
+.sv2-multi-swatch::after{content:'';position:absolute;inset:0;background:var(--s2);border:1px solid var(--border);border-radius:2px;transform:translate(3px,-3px)}
+.sv2-multi-swatch::before{content:'';position:absolute;inset:0;background:var(--surface);border:1px solid var(--border);border-radius:3px;transform:translate(6px,-6px);z-index:-1}
 </style>
 </head>
 <body>
@@ -211,6 +273,69 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:
 <div class="lg"><div class="li"><div class="ld h"></div>Key</div><div class="li"><div class="ld n"></div>New</div><div class="li"><div class="ld p"></div>Products</div><div class="li"><div class="ld e"></div>Existing</div></div>
 <div class="pr"><h3>Why "Methodology" as the third item</h3><p>Your biggest differentiator isn't <em>what</em> you do — it's <em>how</em> you do it. "Methodology" signals a structured, proven process — something a mid-market CEO evaluating you vs. a cheaper AI freelancer wants to see. It's where the 4 pillars, the Brand → Innovation framework, and 19 years of experience come together into a compelling trust-building page.</p>
 <h3>Dual CTAs without redundancy</h3><p>"See Our Work" as a CTA button (not a nav item) links to the case studies page. "Start a Project" is the primary conversion action. No "Work" in the nav means no duplication — but proof is always one click away.</p></div>
+
+<!-- SITEMAP V2 — OPTION A -->
+<div class="sv2">
+  <h3>Sitemap</h3>
+  <p class="sv2-sub">Full page hierarchy — The Balanced Authority</p>
+  <div class="sv2-home"><div class="sv2-hnode-root"><span class="sv2n-name">Home</span><span class="sv2n-hint">Pain-point hero · Journey framework · Client tier cards · Social proof · Pain points grid</span></div></div>
+  <div class="sv2-bar">Primary Navigation</div>
+  <div class="sv2-grid">
+    <div class="sv2-col">
+      <div class="sv2-col-head"><span class="sv2-col-head-name">Services</span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n n2-new"><span class="sv2n-name">AI Transformation <span class="sv2b sv2b-n">N</span></span><span class="sv2n-hint">Readiness · Automation · Custom AI apps · Governance</span></div>
+        <div class="sv2n"><span class="sv2n-name">Software &amp; Integration</span><span class="sv2n-hint">Custom software · App dev · Systems</span></div>
+        <div class="sv2n"><span class="sv2n-name">Web &amp; Digital Presence</span><span class="sv2n-hint">Design · Branding · SEO/GEO</span></div>
+        <div class="sv2n"><span class="sv2n-name">Marketing &amp; Performance</span><span class="sv2n-hint">PPC · Content · Analytics</span></div>
+        <div class="sv2n"><span class="sv2n-name">Support &amp; Protection</span><span class="sv2n-hint">Hosting · Monitoring · Insurance</span></div>
+      </div>
+    </div>
+    <div class="sv2-col">
+      <div class="sv2-col-head ch-prod"><span class="sv2-col-head-name">Products</span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n n2-prod"><span class="sv2n-name">Path Pilot <span class="sv2b sv2b-p">P</span></span><span class="sv2n-hint">Analytics &amp; content intelligence</span></div>
+        <div class="sv2n n2-prod"><span class="sv2n-name">Sites <span class="sv2b sv2b-p">P</span></span><span class="sv2n-hint">Static site builder</span></div>
+        <div class="sv2n n2-prod"><span class="sv2n-name">The Hub <span class="sv2b sv2b-p">P</span></span><span class="sv2n-hint">Client collaboration platform</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">AI Readiness Assessment <span class="sv2b sv2b-n">N</span></span><span class="sv2n-hint">Top-of-funnel lead magnet</span></div>
+      </div>
+    </div>
+    <div class="sv2-col">
+      <div class="sv2-col-head ch-new"><span class="sv2-col-head-name">Methodology <span class="sv2b sv2b-n">N</span></span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n n2-new"><span class="sv2n-name">Brand → Innovation Framework</span><span class="sv2n-hint">4-stage customer journey</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">4 Pillars</span><span class="sv2n-hint">What makes us different</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">How We Work</span><span class="sv2n-hint">3 tiers · Discovery → Build → Support</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="sv2-bar">Persistent CTAs</div>
+  <div class="sv2-cta-bar">
+    <div class="sv2-cta-node is-multi"><span>Case Studies</span><span class="sv2n-hint">Case Study Detail pages · "See Our Work" button</span></div>
+    <div class="sv2-cta-node"><span>Start a Project</span><span class="sv2n-hint">Contact / primary conversion</span></div>
+  </div>
+  <div class="sv2-bar">☰ Hamburger — Secondary Pages</div>
+  <div class="sv2-ham-grid">
+    <div class="sv2-hn is-multi">AI Labs <span class="sv2b sv2b-n">N</span></div>
+    <div class="sv2-hn is-multi">Blog / Articles</div>
+    <div class="sv2-hn is-multi">Research Reports</div>
+    <div class="sv2-hn">Brand → Innovation Journey</div>
+    <div class="sv2-hn">How We Work <span class="sv2b sv2b-n">N</span></div>
+    <div class="sv2-hn">AI Readiness Assessment <span class="sv2b sv2b-n">N</span></div>
+    <div class="sv2-hn">About Us</div>
+    <div class="sv2-hn">Our Story</div>
+    <div class="sv2-hn">Awards</div>
+    <div class="sv2-hn">Client Portal</div>
+  </div>
+  <div class="sv2-key">
+    <div class="sv2-ki"><div class="sv2-kb kk-nav"></div>Primary nav section</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-new"></div>New page</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-prod"></div>Product</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-ham"></div>Hamburger / secondary</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-std"></div>Existing page</div>
+    <div class="sv2-ki"><div class="sv2-multi-swatch"></div>Multiple instances</div>
+  </div>
+</div>
 </section>
 
 <!-- ═══ OPTION B ═══ -->
@@ -277,6 +402,72 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:
 <div class="lg"><div class="li"><div class="ld h"></div>Key</div><div class="li"><div class="ld n"></div>New</div><div class="li"><div class="ld p"></div>Products</div></div>
 <div class="pr"><h3>Why "AI Lab" as the third item</h3><p>You already have this page live at soliddigital.com/ai-lab. It's your most compelling proof point right now — it shows 10+ AI tools built, real products in production, and a team that's eating its own dog food. While you're building case studies in the new positioning, the AI Lab <em>is</em> your case study. Putting it in the primary nav tells every visitor: we're not just talking about AI, we're shipping it.</p>
 <h3>The mega dropdown</h3><p>The "What We Do" dropdown shows the full journey in a two-column layout. Left side: four stages. Right side: cross-cutting services + the "Not sure?" CTA to the assessment. The nav itself becomes a lead gen moment.</p></div>
+
+<!-- SITEMAP V2 — OPTION B -->
+<div class="sv2">
+  <h3>Sitemap</h3>
+  <p class="sv2-sub">Full page hierarchy — The Proof-First Launch</p>
+  <div class="sv2-home"><div class="sv2-hnode-root"><span class="sv2n-name">Home</span><span class="sv2n-hint">Pain-point hero · Tier selector · Journey visual · Social proof</span></div></div>
+  <div class="sv2-bar">Primary Navigation</div>
+  <div class="sv2-grid">
+    <div class="sv2-col">
+      <div class="sv2-col-head"><span class="sv2-col-head-name">What We Do</span><span style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-left:6px">mega dropdown</span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n n2-new"><span class="sv2n-name">Brand &amp; Presence</span><span class="sv2n-hint">Website · Branding · Foundational marketing</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">Performance</span><span class="sv2n-hint">SEO/GEO · PPC · Content · Analytics</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">Integration</span><span class="sv2n-hint">Custom software · Systems · App dev</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">Innovation <span class="sv2b sv2b-n">N</span></span><span class="sv2n-hint">AI transformation · Automation · Governance</span></div>
+        <div class="sv2n"><span class="sv2n-name">Support &amp; Protection</span><span class="sv2n-hint">Hosting · Monitoring · Insurance</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">Efficiency Consulting <span class="sv2b sv2b-n">N</span></span><span class="sv2n-hint">Tool consolidation · Workflow mapping</span></div>
+      </div>
+    </div>
+    <div class="sv2-col">
+      <div class="sv2-col-head ch-prod"><span class="sv2-col-head-name">Our Tech</span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n n2-prod"><span class="sv2n-name">Path Pilot <span class="sv2b sv2b-p">P</span></span><span class="sv2n-hint">Analytics &amp; content intelligence</span></div>
+        <div class="sv2n n2-prod"><span class="sv2n-name">Sites <span class="sv2b sv2b-p">P</span></span><span class="sv2n-hint">Static site builder</span></div>
+        <div class="sv2n n2-prod"><span class="sv2n-name">The Hub <span class="sv2b sv2b-p">P</span></span><span class="sv2n-hint">Client collaboration platform</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">AI Readiness Assessment <span class="sv2b sv2b-n">N</span></span><span class="sv2n-hint">Top-of-funnel lead magnet</span></div>
+      </div>
+    </div>
+    <div class="sv2-col">
+      <div class="sv2-col-head ch-new"><span class="sv2-col-head-name">AI Lab <span class="sv2b sv2b-n">N</span></span><span style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-left:6px">already live</span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n n2-new is-multi"><span class="sv2n-name">AI Tool / Experiment Detail</span><span class="sv2n-hint">10+ tools built in-house</span></div>
+      </div>
+    </div>
+    <div class="sv2-col">
+      <div class="sv2-col-head"><span class="sv2-col-head-name">Work</span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n is-multi"><span class="sv2n-name">Case Study Detail</span><span class="sv2n-hint">Organized by Brand → Innovation stage</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="sv2-bar">Persistent CTAs</div>
+  <div class="sv2-cta-bar">
+    <div class="sv2-cta-node"><span>Start a Project</span><span class="sv2n-hint">Primary conversion CTA</span></div>
+  </div>
+  <div class="sv2-bar">☰ Hamburger — Secondary Pages</div>
+  <div class="sv2-ham-grid">
+    <div class="sv2-hn">Our Approach <span class="sv2b sv2b-n">N</span></div>
+    <div class="sv2-hn">Brand → Innovation Journey</div>
+    <div class="sv2-hn">How We Work <span class="sv2b sv2b-n">N</span></div>
+    <div class="sv2-hn">AI Readiness Assessment <span class="sv2b sv2b-n">N</span></div>
+    <div class="sv2-hn is-multi">Blog / Articles</div>
+    <div class="sv2-hn is-multi">Research Reports</div>
+    <div class="sv2-hn">About Us</div>
+    <div class="sv2-hn">Our Story</div>
+    <div class="sv2-hn">Awards</div>
+  </div>
+  <div class="sv2-key">
+    <div class="sv2-ki"><div class="sv2-kb kk-nav"></div>Primary nav section</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-new"></div>New page</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-prod"></div>Product</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-ham"></div>Hamburger / secondary</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-std"></div>Existing page</div>
+    <div class="sv2-ki"><div class="sv2-multi-swatch"></div>Multiple instances</div>
+  </div>
+</div>
 </section>
 
 <!-- ═══ OPTION C ═══ -->
@@ -331,6 +522,76 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:
 </div></div></div>
 <div class="lg"><div class="li"><div class="ld h"></div>Key</div><div class="li"><div class="ld n"></div>New</div><div class="li"><div class="ld p"></div>Platforms</div></div>
 <div class="pr"><h3>Why "How We Work" as a primary nav item</h3><p>This gives the Brand → Innovation framework, three client tiers, and 4 pillars a dedicated home. It answers: <strong>"What's it like to actually work with you?"</strong> — the question every mid-market CEO asks before committing. It's also a natural landing page for prospects who need to understand the engagement model before they'll reach out.</p></div>
+
+<!-- SITEMAP V2 — OPTION C -->
+<div class="sv2">
+  <h3>Sitemap</h3>
+  <p class="sv2-sub">Full page hierarchy — The Full Picture</p>
+  <div class="sv2-home"><div class="sv2-hnode-root"><span class="sv2n-name">Home</span><span class="sv2n-hint">Pain points · Tier selector · Journey visual · Pain points grid</span></div></div>
+  <div class="sv2-bar">Primary Navigation</div>
+  <div class="sv2-grid">
+    <div class="sv2-col">
+      <div class="sv2-col-head"><span class="sv2-col-head-name">What We Do</span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n n2-new"><span class="sv2n-name">AI Transformation <span class="sv2b sv2b-n">N</span></span><span class="sv2n-hint">Readiness · Automation · Apps · Governance</span></div>
+        <div class="sv2n"><span class="sv2n-name">Software &amp; Integration</span><span class="sv2n-hint">Custom software · App dev · Systems</span></div>
+        <div class="sv2n"><span class="sv2n-name">Web &amp; Digital Presence</span><span class="sv2n-hint">Design · Branding · SEO/GEO</span></div>
+        <div class="sv2n"><span class="sv2n-name">Marketing &amp; Performance</span><span class="sv2n-hint">PPC · Content · Analytics</span></div>
+        <div class="sv2n"><span class="sv2n-name">Support &amp; Protection</span><span class="sv2n-hint">Hosting · Monitoring · Insurance</span></div>
+      </div>
+    </div>
+    <div class="sv2-col">
+      <div class="sv2-col-head ch-new"><span class="sv2-col-head-name">How We Work <span class="sv2b sv2b-n">N</span></span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n n2-new"><span class="sv2n-name">Brand → Innovation Framework</span><span class="sv2n-hint">4-stage customer journey</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">3 Client Tiers</span><span class="sv2n-hint">Transactional · Mid-level · Full-service</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">Engagement Process</span><span class="sv2n-hint">Discovery → Strategy → Build → Support</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">4 Pillars</span><span class="sv2n-hint">What makes us different</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">AI Assessment CTA</span><span class="sv2n-hint">Lead-gen conversion point</span></div>
+      </div>
+    </div>
+    <div class="sv2-col">
+      <div class="sv2-col-head ch-prod"><span class="sv2-col-head-name">Platforms</span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n n2-prod"><span class="sv2n-name">Path Pilot <span class="sv2b sv2b-p">P</span></span><span class="sv2n-hint">Analytics &amp; content intelligence</span></div>
+        <div class="sv2n n2-prod"><span class="sv2n-name">Sites <span class="sv2b sv2b-p">P</span></span><span class="sv2n-hint">Static site builder</span></div>
+        <div class="sv2n n2-prod"><span class="sv2n-name">The Hub <span class="sv2b sv2b-p">P</span></span><span class="sv2n-hint">Client collaboration platform</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">AI Readiness Assessment <span class="sv2b sv2b-n">N</span></span><span class="sv2n-hint">Top-of-funnel lead magnet</span></div>
+      </div>
+    </div>
+    <div class="sv2-col">
+      <div class="sv2-col-head"><span class="sv2-col-head-name">Work</span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n is-multi"><span class="sv2n-name">Case Study Detail</span><span class="sv2n-hint">Organized by Brand → Innovation stage</span></div>
+        <div class="sv2n n2-new is-multi"><span class="sv2n-name">AI Labs Showcase <span class="sv2b sv2b-n">N</span></span><span class="sv2n-hint">In-house tools as proof points</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="sv2-bar">Persistent CTAs</div>
+  <div class="sv2-cta-bar">
+    <div class="sv2-cta-node"><span>Start a Project</span><span class="sv2n-hint">Primary conversion CTA</span></div>
+  </div>
+  <div class="sv2-bar">☰ Hamburger — Secondary Pages</div>
+  <div class="sv2-ham-grid">
+    <div class="sv2-hn is-multi">AI Labs <span class="sv2b sv2b-n">N</span></div>
+    <div class="sv2-hn is-multi">Blog / Articles</div>
+    <div class="sv2-hn is-multi">Research Reports</div>
+    <div class="sv2-hn">AI Readiness Assessment <span class="sv2b sv2b-n">N</span></div>
+    <div class="sv2-hn">Brand → Innovation Journey</div>
+    <div class="sv2-hn">FAQ</div>
+    <div class="sv2-hn">About Us</div>
+    <div class="sv2-hn">Our Story</div>
+    <div class="sv2-hn">Awards</div>
+  </div>
+  <div class="sv2-key">
+    <div class="sv2-ki"><div class="sv2-kb kk-nav"></div>Primary nav section</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-new"></div>New page</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-prod"></div>Product</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-ham"></div>Hamburger / secondary</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-std"></div>Existing page</div>
+    <div class="sv2-ki"><div class="sv2-multi-swatch"></div>Multiple instances</div>
+  </div>
+</div>
 </section>
 
 <!-- ═══ OPTION D ═══ -->
@@ -404,6 +665,82 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:
 <div class="lg"><div class="li"><div class="ld h"></div>Key</div><div class="li"><div class="ld n"></div>New</div><div class="li"><div class="ld p"></div>Products</div></div>
 <div class="pr"><h3>Why Industries in the primary nav</h3><p>An Industries dropdown instantly signals vertical expertise to prospects. When a manufacturing CEO sees "Manufacturing & Industrial" in your nav, they know you understand their world — ERP integration, supply chain complexity, compliance. It filters out tire-kickers and attracts the right conversations. The 8 industries listed are based on your existing client base (healthcare, SaaS, nonprofits) plus high-opportunity verticals (manufacturing, financial services, real estate) where mid-market companies have the operational complexity and AI readiness gaps that Solid Digital is built to solve.</p>
 <h3>Why "Our Approach" alongside Industries</h3><p>Industries tells prospects <strong>you understand their world</strong>. Our Approach tells them <strong>how you'll work together</strong>. Together with Services and Products, the four nav items create a complete picture: what you do, who you do it for, what they can use, and why you're different. The dual CTAs handle proof (See Our Work) and conversion (Start a Project) without needing either in the nav.</p></div>
+
+<!-- SITEMAP V2 — OPTION D -->
+<div class="sv2">
+  <h3>Sitemap</h3>
+  <p class="sv2-sub">Full page hierarchy — The Conversion Engine</p>
+  <div class="sv2-home"><div class="sv2-hnode-root"><span class="sv2n-name">Home</span><span class="sv2n-hint">Pain-point hero · Tier cards · Journey visual · Social proof</span></div></div>
+  <div class="sv2-bar">Primary Navigation</div>
+  <div class="sv2-grid">
+    <div class="sv2-col">
+      <div class="sv2-col-head"><span class="sv2-col-head-name">Services</span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n n2-new"><span class="sv2n-name">AI Transformation <span class="sv2b sv2b-n">N</span></span><span class="sv2n-hint">Readiness · Automation · Apps · Governance</span></div>
+        <div class="sv2n"><span class="sv2n-name">Software &amp; Integration</span><span class="sv2n-hint">Custom software · App dev · Systems</span></div>
+        <div class="sv2n"><span class="sv2n-name">Web &amp; Digital Presence</span><span class="sv2n-hint">Design · Branding · SEO/GEO</span></div>
+        <div class="sv2n"><span class="sv2n-name">Marketing &amp; Performance</span><span class="sv2n-hint">PPC · Content · Analytics</span></div>
+        <div class="sv2n"><span class="sv2n-name">Support &amp; Protection</span><span class="sv2n-hint">Hosting · Monitoring · Insurance</span></div>
+      </div>
+    </div>
+    <div class="sv2-col" style="grid-column:span 2">
+      <div class="sv2-col-head ch-new"><span class="sv2-col-head-name">Industries <span class="sv2b sv2b-n">N</span></span><span style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-left:6px">8 unique landing pages</span></div>
+      <div class="sv2-col-body" style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div class="sv2n n2-new"><span class="sv2n-name">Manufacturing &amp; Industrial</span><span class="sv2n-hint">ERP · Supply chain · Automation</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">Professional Services</span><span class="sv2n-hint">Law firms · Consultancies · Accounting</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">Healthcare &amp; Life Sciences</span><span class="sv2n-hint">HIPAA-compliant · Clinical workflows</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">Financial Services</span><span class="sv2n-hint">Fintech · Insurance · Compliance</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">Associations &amp; Nonprofits</span><span class="sv2n-hint">Governance · Member systems · Tools</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">B2B E-Commerce &amp; Distribution</span><span class="sv2n-hint">CRM · Revenue ops · Catalog</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">Real Estate &amp; Property Mgmt</span><span class="sv2n-hint">Data-heavy ops · Tenant systems</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">Education &amp; Higher Ed</span><span class="sv2n-hint">Student systems · Compliance</span></div>
+      </div>
+    </div>
+    <div class="sv2-col">
+      <div class="sv2-col-head ch-prod"><span class="sv2-col-head-name">Products</span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n n2-prod"><span class="sv2n-name">Path Pilot <span class="sv2b sv2b-p">P</span></span><span class="sv2n-hint">Analytics &amp; content intelligence</span></div>
+        <div class="sv2n n2-prod"><span class="sv2n-name">Sites <span class="sv2b sv2b-p">P</span></span><span class="sv2n-hint">Static site builder</span></div>
+        <div class="sv2n n2-prod"><span class="sv2n-name">The Hub <span class="sv2b sv2b-p">P</span></span><span class="sv2n-hint">Client collaboration platform</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">AI Readiness Assessment <span class="sv2b sv2b-n">N</span></span><span class="sv2n-hint">Top-of-funnel lead magnet</span></div>
+      </div>
+    </div>
+    <div class="sv2-col">
+      <div class="sv2-col-head ch-new"><span class="sv2-col-head-name">Our Approach <span class="sv2b sv2b-n">N</span></span></div>
+      <div class="sv2-col-body">
+        <div class="sv2n n2-new"><span class="sv2n-name">4 Pillars + Brand → Innovation</span><span class="sv2n-hint">Strategic framework</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">What Makes Us Different</span><span class="sv2n-hint">vs. enterprise consultancies &amp; grifters</span></div>
+        <div class="sv2n n2-new"><span class="sv2n-name">19 Years of Experience</span><span class="sv2n-hint">Credibility &amp; track record</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="sv2-bar">Persistent CTAs</div>
+  <div class="sv2-cta-bar">
+    <div class="sv2-cta-node is-multi"><span>Case Studies</span><span class="sv2n-hint">Case Study Detail pages · "See Our Work" button</span></div>
+    <div class="sv2-cta-node"><span>Start a Project</span><span class="sv2n-hint">Contact / primary conversion</span></div>
+  </div>
+  <div class="sv2-bar">☰ Hamburger — Secondary Pages</div>
+  <div class="sv2-ham-grid">
+    <div class="sv2-hn">How We Work <span class="sv2b sv2b-n">N</span></div>
+    <div class="sv2-hn">Brand → Innovation Journey</div>
+    <div class="sv2-hn">AI Readiness Assessment <span class="sv2b sv2b-n">N</span></div>
+    <div class="sv2-hn is-multi">Case Studies / AI Labs</div>
+    <div class="sv2-hn is-multi">Blog / Articles</div>
+    <div class="sv2-hn is-multi">Research Reports</div>
+    <div class="sv2-hn">About Us</div>
+    <div class="sv2-hn">Our Story</div>
+    <div class="sv2-hn">Awards</div>
+    <div class="sv2-hn">Client Portal</div>
+  </div>
+  <div class="sv2-key">
+    <div class="sv2-ki"><div class="sv2-kb kk-nav"></div>Primary nav section</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-new"></div>New page</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-prod"></div>Product</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-ham"></div>Hamburger / secondary</div>
+    <div class="sv2-ki"><div class="sv2-kb kk-std"></div>Existing page</div>
+    <div class="sv2-ki"><div class="sv2-multi-swatch"></div>Multiple instances</div>
+  </div>
+</div>
 </section>
 
 <script>

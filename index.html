@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solid Digital — Website Architecture Options</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#080F1A;--surface:#0F1D30;--s2:#142438;--s3:#1A2D45;
+  --border:rgba(255,255,255,0.12);--border2:rgba(255,255,255,0.06);
+  --text:#FFF;--body:rgba(255,255,255,0.78);--body2:rgba(255,255,255,0.65);
+  --sub:rgba(255,255,255,0.58);--muted:rgba(255,255,255,0.42);
+  --red:#F04048;--rbg:#E41E26;--blue:#5EC4F5;--teal:#5FD9D0;--gold:#E0B84E;
+  --serif:'Source Serif 4',Georgia,serif;
+  --sans:'Source Sans 3',-apple-system,sans-serif;
+  --mono:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;font-size:16px}
+
+.page-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,15,26,0.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;align-items:center;justify-content:space-between}
+.page-nav h1{font-size:15px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.pills{display:flex;gap:6px}
+.pill{padding:9px 20px;border-radius:5px;font-size:14px;font-weight:500;background:transparent;color:var(--body2);cursor:pointer;transition:all .2s;border:1px solid var(--border)}
+.pill:hover{color:#fff;background:rgba(255,255,255,0.04)}
+.pill.on{background:var(--rbg);color:#fff;border-color:var(--rbg)}
+
+.s{display:none;min-height:100vh;padding:90px 60px 100px}.s.on{display:block}
+.hdr{max-width:1200px;margin:0 auto 56px}
+.num{font-family:var(--mono);font-size:13px;color:var(--blue);font-weight:500;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.num::before{content:'';width:32px;height:1px;background:var(--blue)}
+.ttl{font-family:var(--serif);font-size:52px;color:#fff;line-height:1.1;margin-bottom:18px;font-weight:700}
+.dsc{font-size:18px;color:var(--body2);line-height:1.75;max-width:760px}
+
+/* ─── INTERACTIVE NAV DEMO ─── */
+.demo-frame{max-width:1200px;margin:0 auto 44px;border-radius:12px;overflow:visible;border:1px solid var(--border);background:var(--surface)}
+.demo-frame .demo-label{border-radius:12px 12px 0 0}
+.demo-frame .browser-bar{border-radius:0}
+.demo-frame .sb{border-radius:0 0 12px 12px}
+.demo-label{font-family:var(--mono);font-size:12px;color:var(--blue);letter-spacing:.12em;text-transform:uppercase;padding:14px 28px 8px;background:var(--surface)}
+.browser-bar{background:#1a1a22;padding:10px 18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.bd{width:11px;height:11px;border-radius:50%}.bd.r{background:#FF5F56}.bd.y{background:#FFBD2E}.bd.g{background:#27C93F}
+.burl{flex:1;margin-left:14px;background:rgba(255,255,255,0.06);border-radius:6px;padding:6px 16px;font-size:13px;color:var(--sub)}
+
+.site-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:var(--bg);position:relative;z-index:20}
+.site-logo{font-size:15px;font-weight:700;color:#fff;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.site-links{display:flex;align-items:center;gap:2px;position:relative}
+.sl{font-size:15px;font-weight:500;color:var(--body);padding:10px 16px;border-radius:5px;cursor:pointer;position:relative;transition:all .15s;white-space:nowrap}
+.sl:hover{color:#fff;background:rgba(255,255,255,0.05)}
+.sl .arr{font-size:10px;margin-left:4px;opacity:0.5}
+.site-cta{font-size:14px;font-weight:600;color:#fff;background:var(--rbg);padding:10px 22px;border-radius:5px;cursor:pointer;white-space:nowrap;transition:all .15s}
+.site-cta:hover{background:#c91920}
+
+.hb{width:26px;height:18px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;padding:0 2px;margin-left:10px}
+.hb span{display:block;width:100%;height:2px;background:var(--body);transition:all .2s;transform-origin:center}
+.hb.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.hb.open span:nth-child(2){opacity:0}
+.hb.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+/* Dropdown */
+.dd{display:none;position:absolute;top:calc(100% + 6px);left:0;background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:18px 0;min-width:320px;z-index:50;box-shadow:0 16px 48px rgba(0,0,0,0.5)}
+.dd.show{display:block}
+.dd.right{left:auto;right:0}
+.dd.mega{min-width:600px;padding:24px}
+.dst{font-family:var(--mono);font-size:11px;color:var(--blue);letter-spacing:.12em;text-transform:uppercase;padding:6px 24px 8px}
+.dd.mega .dst{padding:6px 0 8px}
+.di{display:block;padding:9px 24px;font-size:15px;color:var(--body);transition:all .1s;cursor:pointer}
+.di:hover{color:#fff;background:rgba(255,255,255,0.04)}
+.dd.mega .di{padding:9px 0}
+.di .desc{font-size:13px;color:var(--sub);margin-top:2px}
+.ddv{height:1px;background:var(--border2);margin:8px 0}
+
+/* Hamburger panel */
+.hp{display:none;background:var(--s2);border-top:1px solid var(--border)}
+.hp.show{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.hc{padding:28px 32px;border-right:1px solid var(--border2)}
+.hc:last-child{border-right:none}
+.hct{font-family:var(--mono);font-size:11px;color:var(--blue);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+.hl{display:block;font-size:15px;color:var(--body);padding:6px 0;cursor:pointer;transition:color .15s}
+.hl:hover{color:#fff}
+
+/* Site body wireframe preview */
+.sb{padding:40px;background:var(--bg);border-top:1px solid var(--border2);min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.wf-line{height:10px;border-radius:3px;background:rgba(255,255,255,0.06)}
+.wf-line.lg{width:60%;height:14px;background:rgba(255,255,255,0.1)}
+.wf-line.md{width:45%}
+.wf-line.sm{width:30%}
+.wf-line.xs{width:20%}
+.wf-btns{display:flex;gap:12px;margin-top:8px}
+.wf-btn{width:120px;height:36px;border-radius:5px;border:1px solid rgba(255,255,255,0.1);background:transparent}
+.wf-btn.fill{background:rgba(228,30,38,0.15);border-color:rgba(228,30,38,0.25)}
+.wf-label{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+
+/* Sitemap */
+.sm{max-width:1200px;margin:0 auto}
+.sms{margin-bottom:36px}
+.smst{font-family:var(--mono);font-size:12px;color:var(--blue);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border2)}
+.smg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.smc{background:var(--s2);border:1px solid var(--border2);border-radius:8px;padding:20px}
+.smc.hl{border-color:var(--red);background:rgba(240,64,72,.04)}
+.smc.bl{border-color:var(--blue);background:rgba(94,196,245,.03)}
+.smc.gl{border-color:var(--gold);background:rgba(224,184,78,.03)}
+.smc h4{font-size:16px;font-weight:600;color:#fff;margin-bottom:8px}
+.si{font-size:14px;color:var(--sub);padding:4px 0 4px 14px;border-left:2px solid var(--border2);line-height:1.55;margin-top:4px}
+.si.n{color:var(--blue);border-left-color:rgba(94,196,245,.35)}
+.si.p{color:var(--gold);border-left-color:rgba(224,184,78,.35)}
+
+.pr{max-width:1200px;margin:48px auto 0}
+.pr h3{font-family:var(--serif);font-size:28px;color:#fff;margin-bottom:10px;margin-top:36px;font-weight:700}
+.pr p{font-size:17px;color:var(--body);line-height:1.8;margin-bottom:14px}
+.pr strong{color:#fff;font-weight:600}
+.pr em{color:var(--blue);font-style:normal}
+
+.note{max-width:1200px;margin:0 auto 40px;background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:6px;padding:22px 28px}
+.note h4{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--red);margin-bottom:8px;font-weight:500}
+.note p{font-size:16px;color:var(--body2);line-height:1.75}
+
+.grid4{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:32px;cursor:pointer;transition:all .25s;overflow:hidden;position:relative}
+.card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue);opacity:0;transition:opacity .25s}
+.card:hover{border-color:rgba(94,196,245,.3)}.card:hover::after{opacity:1}
+.card .cn{font-family:var(--mono);font-size:12px;color:var(--blue);font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+.card h3{font-family:var(--serif);font-size:26px;color:#fff;margin-bottom:8px;line-height:1.2;font-weight:700}
+.card p{font-size:15px;color:var(--body2);line-height:1.6}
+.card .tg{display:inline-block;margin-top:14px;font-size:11px;font-weight:600;padding:6px 12px;border-radius:4px;letter-spacing:.04em;text-transform:uppercase}
+.tg.a{background:rgba(94,196,245,.12);color:var(--blue)}
+.tg.b{background:rgba(224,184,78,.12);color:var(--gold)}
+.tg.c{background:rgba(95,217,208,.12);color:var(--teal)}
+.tg.d{background:rgba(240,64,72,.12);color:var(--red)}
+
+.lg{max-width:1200px;margin:24px auto 0;display:flex;gap:24px;flex-wrap:wrap}
+.li{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--sub)}
+.ld{width:12px;height:12px;border-radius:3px}
+.ld.e{background:var(--s2);border:1px solid var(--border2)}
+.ld.n{background:rgba(94,196,245,.18);border:1px solid var(--blue)}
+.ld.p{background:rgba(224,184,78,.18);border:1px solid var(--gold)}
+.ld.h{background:rgba(240,64,72,.15);border:1px solid var(--red)}
+
+@media(max-width:768px){.grid4,.hp.show{grid-template-columns:1fr}.pills{display:none}.ttl{font-size:32px}.s{padding:70px 20px 60px}.site-links{display:none}.smg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="page-nav"><h1>SD · Site Architecture</h1><div class="pills"><div class="pill on" onclick="go('ov')">Overview</div><div class="pill" onclick="go('a')">A</div><div class="pill" onclick="go('b')">B</div><div class="pill" onclick="go('c')">C</div><div class="pill" onclick="go('d')">D</div></div></nav>
+
+<!-- ═══ OVERVIEW ═══ -->
+<section class="s on" id="ov">
+<div class="hdr"><div class="num">Website Strategy</div><div class="ttl">Four Architecture Options</div><div class="dsc">All use a Directive-style nav: focused primary items + hamburger for secondary content + persistent CTA. Each has interactive nav demos — hover items and click the hamburger to explore.</div></div>
+<div class="note"><h4>Executive Summary</h4><p>Solid Digital is repositioning from a web design and marketing agency to an AI transformation partner for mid-market companies. The team has endorsed the Brand → Performance → Integration → Innovation framework as the customer journey, agreed that services should lead with pain points rather than capabilities, and identified three client tiers (transactional, mid-level, full-service). All four architecture options below reflect these decisions while keeping the site credible for a team of six — focused primary nav, hamburger for secondary content, and no half-empty pages.</p></div>
+<div class="grid4">
+<div class="card" onclick="go('a')"><div class="cn">Option A</div><h3>The Balanced Authority</h3><p style="color:var(--blue);font-size:13px;font-weight:600;margin-bottom:8px;letter-spacing:.03em">Services · Products · Methodology</p><p>Three primary items that answer every prospect question. Dual CTAs. Services dropdown reveals journey stages. Methodology earns trust.</p><span class="tg a">Most balanced</span></div>
+<div class="card" onclick="go('b')"><div class="cn">Option B</div><h3>The Proof-First Launch</h3><p style="color:var(--blue);font-size:13px;font-weight:600;margin-bottom:8px;letter-spacing:.03em">What We Do · Our Tech · AI Lab · Work</p><p>Leads with your strongest proof point — the AI Lab page that's already live. Shows you're building, not just talking. Ship immediately.</p><span class="tg b">Best for right now</span></div>
+<div class="card" onclick="go('c')"><div class="cn">Option C</div><h3>The Full Picture</h3><p style="color:var(--blue);font-size:13px;font-weight:600;margin-bottom:8px;letter-spacing:.03em">What We Do · How We Work · Platforms · Work</p><p>Dedicated "How We Work" page for the journey framework and tiers. Gives prospects the full engagement model before they reach out.</p><span class="tg c">Most comprehensive</span></div>
+<div class="card" onclick="go('d')"><div class="cn">Option D</div><h3>The Conversion Engine</h3><p style="color:var(--blue);font-size:13px;font-weight:600;margin-bottom:8px;letter-spacing:.03em">Services · Industries · Products · Our Approach</p><p>Most comprehensive nav with industry-specific targeting. Dual CTAs — "See Our Work" keeps proof visible while Industries signals vertical expertise.</p><span class="tg d">Most sales-oriented</span></div>
+</div>
+</section>
+
+<!-- ═══ OPTION A ═══ -->
+<section class="s" id="a">
+<div class="hdr"><div class="num">Option A</div><div class="ttl">The Balanced Authority</div><div class="dsc">Services · Products · Methodology — with dual CTAs. Three primary items that answer every prospect question. "See Our Work" keeps proof visible. "Methodology" earns trust.</div></div>
+<div class="demo-frame">
+<div class="browser-bar"><div class="bd r"></div><div class="bd y"></div><div class="bd g"></div><div class="burl">soliddigital.com</div></div>
+<div class="site-nav">
+  <div class="site-logo">Solid Digital</div>
+  <div class="site-links">
+    <div class="sl" onmouseenter="showDD('a1')" onmouseleave="hideDD('a1')">Services <span class="arr">▾</span>
+      <div class="dd" id="a1" onmouseenter="showDD('a1')" onmouseleave="hideDD('a1')">
+        <div class="di">AI Transformation<div class="desc">Readiness, automation, custom AI apps, governance</div></div>
+        <div class="di">Software & Integration<div class="desc">Custom software, app dev, system integration</div></div>
+        <div class="di">Web & Digital Presence<div class="desc">Website design, branding, SEO/GEO</div></div>
+        <div class="di">Marketing & Performance<div class="desc">PPC, content strategy, analytics</div></div>
+        <div class="ddv"></div>
+        <div class="di">Support & Protection<div class="desc">Hosting, monitoring, insurance, compliance</div></div>
+      </div>
+    </div>
+    <div class="sl" onmouseenter="showDD('a2')" onmouseleave="hideDD('a2')">Products <span class="arr">▾</span>
+      <div class="dd" id="a2" onmouseenter="showDD('a2')" onmouseleave="hideDD('a2')">
+        <div class="di">Path Pilot<div class="desc">Analytics & content intelligence</div></div>
+        <div class="di">Sites<div class="desc">Static site builder</div></div>
+        <div class="di">The Hub<div class="desc">Client collaboration platform</div></div>
+        <div class="ddv"></div>
+        <div class="di" style="color:var(--blue)">AI Readiness Assessment →</div>
+      </div>
+    </div>
+    <div class="sl">Methodology</div>
+    <div class="hb" id="hbA" onclick="tgl('hpA','hbA')"><span></span><span></span><span></span></div>
+  </div>
+  <div style="display:flex;gap:7px;align-items:center">
+    <div style="font-size:14px;color:var(--body);padding:9px 18px;border:1px solid var(--border);border-radius:5px;cursor:pointer;white-space:nowrap">See Our Work</div>
+    <div class="site-cta">Start a Project</div>
+  </div>
+</div>
+<div class="hp" id="hpA">
+  <div class="hc"><div class="hct">Resources</div><div class="hl">AI Labs</div><div class="hl">Case Studies</div><div class="hl">Blog / Articles</div><div class="hl">Research Reports</div></div>
+  <div class="hc"><div class="hct">Frameworks</div><div class="hl">Brand → Innovation Journey</div><div class="hl">How We Work</div><div class="hl">AI Readiness Assessment</div></div>
+  <div class="hc"><div class="hct">Company</div><div class="hl">About Us</div><div class="hl">Our Story</div><div class="hl">Awards</div><div class="hl">Client Portal</div></div>
+</div>
+<div class="sb"><div class="wf-label">Hero Section</div><div class="wf-line lg"></div><div class="wf-line lg" style="width:50%"></div><div class="wf-line md" style="margin-top:8px"></div><div class="wf-line sm"></div><div class="wf-btns"><div class="wf-btn"></div><div class="wf-btn fill"></div></div></div>
+</div>
+<div class="sm"><div class="sms"><div class="smst">Primary Nav Pages</div><div class="smg">
+<div class="smc hl"><h4>Home</h4><div class="si n">Pain-point hero</div><div class="si n">3 client-tier cards</div><div class="si n">Journey visual</div><div class="si">Social proof</div><div class="si n">Pain points grid</div></div>
+<div class="smc bl"><h4>Services</h4><div class="si n">Organized by journey stage</div><div class="si n">AI Transformation (anchor)</div><div class="si">Software · Web · Marketing</div><div class="si n">Support & Protection</div></div>
+<div class="smc gl"><h4>Products</h4><div class="si p">Path Pilot · Sites · Hub</div><div class="si n">AI Readiness Assessment</div></div>
+<div class="smc"><h4>Methodology</h4><div class="si n">4 pillars detailed</div><div class="si n">Brand → Innovation framework</div><div class="si n">What makes us different</div></div>
+</div></div><div class="sms"><div class="smst">Hamburger</div><div class="smg">
+<div class="smc"><h4>Case Studies</h4><div class="si">By stage · AI Labs</div></div>
+<div class="smc"><h4>About Us</h4><div class="si">Team + 19 yrs</div></div>
+<div class="smc"><h4>How We Work</h4><div class="si n">3 client tiers</div><div class="si n">Engagement process: Discovery → Strategy → Build → Support</div></div>
+<div class="smc"><h4>Blog</h4><div class="si">Content + GEO</div></div>
+</div></div></div>
+<div class="lg"><div class="li"><div class="ld h"></div>Key</div><div class="li"><div class="ld n"></div>New</div><div class="li"><div class="ld p"></div>Products</div><div class="li"><div class="ld e"></div>Existing</div></div>
+<div class="pr"><h3>Why "Methodology" as the third item</h3><p>Your biggest differentiator isn't <em>what</em> you do — it's <em>how</em> you do it. "Methodology" signals a structured, proven process — something a mid-market CEO evaluating you vs. a cheaper AI freelancer wants to see. It's where the 4 pillars, the Brand → Innovation framework, and 19 years of experience come together into a compelling trust-building page.</p>
+<h3>Dual CTAs without redundancy</h3><p>"See Our Work" as a CTA button (not a nav item) links to the case studies page. "Start a Project" is the primary conversion action. No "Work" in the nav means no duplication — but proof is always one click away.</p></div>
+</section>
+
+<!-- ═══ OPTION B ═══ -->
+<section class="s" id="b">
+<div class="hdr"><div class="num">Option B</div><div class="ttl">The Proof-First Launch</div><div class="dsc">What We Do · Our Tech · AI Lab · Work — single CTA. Leads with your strongest proof point — the AI Lab page that's already live. Shows you're building, not just talking. Ship immediately.</div></div>
+<div class="demo-frame">
+<div class="browser-bar"><div class="bd r"></div><div class="bd y"></div><div class="bd g"></div><div class="burl">soliddigital.com</div></div>
+<div class="site-nav">
+  <div class="site-logo">Solid Digital</div>
+  <div class="site-links">
+    <div class="sl" onmouseenter="showDD('b1')" onmouseleave="hideDD('b1')">What We Do <span class="arr">▾</span>
+      <div class="dd mega" id="b1" onmouseenter="showDD('b1')" onmouseleave="hideDD('b1')">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+          <div style="padding-right:18px;border-right:1px solid var(--border2)">
+            <div class="dst" style="padding-left:0">The Journey</div>
+            <div class="di">Brand & Presence<div class="desc">Website design, branding, foundational marketing</div></div>
+            <div class="di">Performance<div class="desc">SEO/GEO, PPC, content, analytics, reliability</div></div>
+            <div class="di">Integration<div class="desc">Custom software, app dev, system integration</div></div>
+            <div class="di">Innovation<div class="desc">AI transformation, automation, governance</div></div>
+          </div>
+          <div style="padding-left:18px">
+            <div class="dst" style="padding-left:0">Ongoing Support</div>
+            <div class="di">Support & Protection<div class="desc">Hosting, monitoring, insurance</div></div>
+            <div class="di">Efficiency Consulting<div class="desc">Tool consolidation, workflow mapping</div></div>
+            <div style="height:10px"></div>
+            <div class="dst" style="padding-left:0">Not sure where to start?</div>
+            <div class="di" style="color:var(--blue)">Take our AI Readiness Assessment →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sl" onmouseenter="showDD('b2')" onmouseleave="hideDD('b2')">Our Tech <span class="arr">▾</span>
+      <div class="dd" id="b2" onmouseenter="showDD('b2')" onmouseleave="hideDD('b2')">
+        <div class="di">Path Pilot<div class="desc">Analytics & content intelligence</div></div>
+        <div class="di">Sites<div class="desc">Static site builder</div></div>
+        <div class="di">The Hub<div class="desc">Client collaboration platform</div></div>
+      </div>
+    </div>
+    <div class="sl">AI Lab</div>
+    <div class="sl">Work</div>
+    <div class="hb" id="hbB" onclick="tgl('hpB','hbB')"><span></span><span></span><span></span></div>
+  </div>
+  <div class="site-cta">Start a Project</div>
+</div>
+<div class="hp" id="hpB">
+  <div class="hc"><div class="hct">Resources</div><div class="hl">Blog / Articles</div><div class="hl">Research Reports</div></div>
+  <div class="hc"><div class="hct">Learn More</div><div class="hl">Our Approach</div><div class="hl">Brand → Innovation Journey</div><div class="hl">How We Work</div><div class="hl">AI Readiness Assessment</div></div>
+  <div class="hc"><div class="hct">Company</div><div class="hl">About Us</div><div class="hl">Our Story</div><div class="hl">Awards</div></div>
+</div>
+<div class="sb"><div class="wf-label">Hero Section</div><div class="wf-line lg"></div><div class="wf-line lg" style="width:55%"></div><div class="wf-line md" style="margin-top:8px"></div><div class="wf-line sm"></div><div class="wf-btns"><div class="wf-btn fill"></div></div></div>
+</div>
+<div class="sm"><div class="sms"><div class="smst">Primary Nav Pages</div><div class="smg">
+<div class="smc hl"><h4>Home</h4><div class="si n">Pain-point hero</div><div class="si n">Tier selector</div><div class="si n">Journey visual</div><div class="si">Social proof</div></div>
+<div class="smc bl"><h4>What We Do</h4><div class="si n">Journey stages with pains</div><div class="si">Capabilities per stage</div><div class="si n">4 pillars</div></div>
+<div class="smc gl"><h4>Our Tech</h4><div class="si p">Path Pilot · Sites · Hub</div><div class="si n">AI Readiness Assessment</div></div>
+<div class="smc hl"><h4>AI Lab</h4><div class="si n">Already live — experiments & demos</div><div class="si n">Case studies woven in</div><div class="si n">Proof you're building, not just talking</div></div>
+<div class="smc"><h4>Work</h4><div class="si">Case studies by journey stage</div><div class="si n">Client transformation stories</div></div>
+</div></div><div class="sms"><div class="smst">Hamburger</div><div class="smg">
+<div class="smc"><h4>Our Approach</h4><div class="si n">Pillars + journey</div></div>
+<div class="smc"><h4>How We Work</h4><div class="si n">3 client tiers</div><div class="si n">Engagement process: Discovery → Strategy → Build → Support</div></div>
+<div class="smc"><h4>Case Studies</h4><div class="si">Proof points</div></div>
+<div class="smc"><h4>About · Blog</h4><div class="si">Company + content</div></div>
+</div></div></div>
+<div class="lg"><div class="li"><div class="ld h"></div>Key</div><div class="li"><div class="ld n"></div>New</div><div class="li"><div class="ld p"></div>Products</div></div>
+<div class="pr"><h3>Why "AI Lab" as the third item</h3><p>You already have this page live at soliddigital.com/ai-lab. It's your most compelling proof point right now — it shows 10+ AI tools built, real products in production, and a team that's eating its own dog food. While you're building case studies in the new positioning, the AI Lab <em>is</em> your case study. Putting it in the primary nav tells every visitor: we're not just talking about AI, we're shipping it.</p>
+<h3>The mega dropdown</h3><p>The "What We Do" dropdown shows the full journey in a two-column layout. Left side: four stages. Right side: cross-cutting services + the "Not sure?" CTA to the assessment. The nav itself becomes a lead gen moment.</p></div>
+</section>
+
+<!-- ═══ OPTION C ═══ -->
+<section class="s" id="c">
+<div class="hdr"><div class="num">Option C</div><div class="ttl">The Full Picture</div><div class="dsc">What We Do · How We Work · Platforms · Work — single CTA. Dedicated "How We Work" page for the journey framework and tiers. Gives prospects the full engagement model before they reach out.</div></div>
+<div class="demo-frame">
+<div class="browser-bar"><div class="bd r"></div><div class="bd y"></div><div class="bd g"></div><div class="burl">soliddigital.com</div></div>
+<div class="site-nav">
+  <div class="site-logo">Solid Digital</div>
+  <div class="site-links">
+    <div class="sl" onmouseenter="showDD('c1')" onmouseleave="hideDD('c1')">What We Do <span class="arr">▾</span>
+      <div class="dd" id="c1" onmouseenter="showDD('c1')" onmouseleave="hideDD('c1')">
+        <div class="dst">Services</div>
+        <div class="di">AI Transformation</div>
+        <div class="di">Software & Integration</div>
+        <div class="di">Web & Digital Presence</div>
+        <div class="di">Marketing & Performance</div>
+        <div class="di">Support & Protection</div>
+      </div>
+    </div>
+    <div class="sl">How We Work</div>
+    <div class="sl" onmouseenter="showDD('c2')" onmouseleave="hideDD('c2')">Platforms <span class="arr">▾</span>
+      <div class="dd right" id="c2" onmouseenter="showDD('c2')" onmouseleave="hideDD('c2')">
+        <div class="di">Path Pilot</div>
+        <div class="di">Sites</div>
+        <div class="di">The Hub</div>
+        <div class="ddv"></div>
+        <div class="di" style="color:var(--blue)">AI Readiness Assessment →</div>
+      </div>
+    </div>
+    <div class="sl">Work</div>
+    <div class="hb" id="hbC" onclick="tgl('hpC','hbC')"><span></span><span></span><span></span></div>
+  </div>
+  <div class="site-cta">Start a Project</div>
+</div>
+<div class="hp" id="hpC">
+  <div class="hc"><div class="hct">Resources</div><div class="hl">AI Labs</div><div class="hl">Blog / Articles</div><div class="hl">Research Reports</div></div>
+  <div class="hc"><div class="hct">Learn More</div><div class="hl">Brand → Innovation Journey</div><div class="hl">AI Readiness Assessment</div><div class="hl">FAQ</div></div>
+  <div class="hc"><div class="hct">Company</div><div class="hl">About Us</div><div class="hl">Our Story</div><div class="hl">Awards</div></div>
+</div>
+<div class="sb"><div class="wf-label">Hero Section</div><div class="wf-line lg"></div><div class="wf-line lg" style="width:48%"></div><div class="wf-line md" style="margin-top:8px"></div><div class="wf-line sm"></div><div class="wf-btns"><div class="wf-btn fill"></div></div></div>
+</div>
+<div class="sm"><div class="sms"><div class="smst">Primary Nav Pages</div><div class="smg">
+<div class="smc hl"><h4>Home</h4><div class="si n">Pain-point hero</div><div class="si n">Tier selector</div><div class="si n">Journey visual</div><div class="si">Social proof</div><div class="si n">Pain points grid</div></div>
+<div class="smc bl"><h4>What We Do</h4><div class="si n">Services by journey stage</div><div class="si n">AI Transformation (lead)</div><div class="si">Software · Web · Marketing</div><div class="si n">Support & Protection</div></div>
+<div class="smc"><h4>How We Work</h4><div class="si n">Brand → Innovation framework</div><div class="si n">3 client tiers explained</div><div class="si n">Engagement process: Discovery → Strategy → Build → Support</div><div class="si n">4 pillars / our approach</div><div class="si n">Assessment CTA</div></div>
+<div class="smc gl"><h4>Platforms</h4><div class="si p">Path Pilot · Sites · Hub</div><div class="si n">AI Readiness Assessment</div></div>
+<div class="smc"><h4>Work</h4><div class="si">Case studies by stage</div><div class="si n">AI Labs showcase</div></div>
+</div></div><div class="sms"><div class="smst">Hamburger</div><div class="smg">
+<div class="smc"><h4>About Us</h4><div class="si">Our Story</div></div>
+<div class="smc"><h4>Blog</h4><div class="si">Content</div></div>
+</div></div></div>
+<div class="lg"><div class="li"><div class="ld h"></div>Key</div><div class="li"><div class="ld n"></div>New</div><div class="li"><div class="ld p"></div>Platforms</div></div>
+<div class="pr"><h3>Why "How We Work" as a primary nav item</h3><p>This gives the Brand → Innovation framework, three client tiers, and 4 pillars a dedicated home. It answers: <strong>"What's it like to actually work with you?"</strong> — the question every mid-market CEO asks before committing. It's also a natural landing page for prospects who need to understand the engagement model before they'll reach out.</p></div>
+</section>
+
+<!-- ═══ OPTION D ═══ -->
+<section class="s" id="d">
+<div class="hdr"><div class="num">Option D</div><div class="ttl">The Conversion Engine</div><div class="dsc">Services · Industries · Products · Our Approach — with dual CTAs. The most comprehensive nav with industry-specific targeting and persistent "See Our Work" + "Start a Project" buttons.</div></div>
+<div class="demo-frame">
+<div class="browser-bar"><div class="bd r"></div><div class="bd y"></div><div class="bd g"></div><div class="burl">soliddigital.com</div></div>
+<div class="site-nav">
+  <div class="site-logo">Solid Digital</div>
+  <div class="site-links">
+    <div class="sl" onmouseenter="showDD('d1')" onmouseleave="hideDD('d1')">Services <span class="arr">▾</span>
+      <div class="dd" id="d1" onmouseenter="showDD('d1')" onmouseleave="hideDD('d1')">
+        <div class="di">AI Transformation<div class="desc">Readiness, automation, custom AI apps</div></div>
+        <div class="di">Software & Integration<div class="desc">Custom software, systems, app dev</div></div>
+        <div class="di">Web & Digital Presence<div class="desc">Design, branding, SEO/GEO</div></div>
+        <div class="di">Marketing & Performance<div class="desc">PPC, content, analytics</div></div>
+        <div class="ddv"></div>
+        <div class="di">Support & Protection</div>
+      </div>
+    </div>
+    <div class="sl" onmouseenter="showDD('d5')" onmouseleave="hideDD('d5')">Industries <span class="arr">▾</span>
+      <div class="dd" id="d5" onmouseenter="showDD('d5')" onmouseleave="hideDD('d5')">
+        <div class="dst">Who We Serve</div>
+        <div class="di">Manufacturing & Industrial<div class="desc">ERP integration, supply chain, process automation</div></div>
+        <div class="di">Professional Services<div class="desc">Law firms, consultancies, accounting</div></div>
+        <div class="di">Healthcare & Life Sciences<div class="desc">HIPAA-compliant systems, clinical workflows</div></div>
+        <div class="di">Financial Services<div class="desc">Fintech, insurance, compliance-driven orgs</div></div>
+        <div class="di">Associations & Nonprofits<div class="desc">Governance, member systems, tool consolidation</div></div>
+        <div class="ddv"></div>
+        <div class="di">B2B E-Commerce & Distribution<div class="desc">CRM, revenue ops, catalog management</div></div>
+        <div class="di">Real Estate & Property Management<div class="desc">Data-heavy ops, tenant systems</div></div>
+        <div class="di">Education & Higher Ed<div class="desc">Student systems, compliance, modernization</div></div>
+      </div>
+    </div>
+    <div class="sl" onmouseenter="showDD('d2')" onmouseleave="hideDD('d2')">Products <span class="arr">▾</span>
+      <div class="dd" id="d2" onmouseenter="showDD('d2')" onmouseleave="hideDD('d2')">
+        <div class="di">Path Pilot</div>
+        <div class="di">Sites</div>
+        <div class="di">The Hub</div>
+        <div class="ddv"></div>
+        <div class="di" style="color:var(--blue)">AI Readiness Assessment →</div>
+      </div>
+    </div>
+    <div class="sl">Our Approach</div>
+    <div class="hb" id="hbD" onclick="tgl('hpD','hbD')"><span></span><span></span><span></span></div>
+  </div>
+  <div style="display:flex;gap:7px;align-items:center">
+    <div style="font-size:14px;color:var(--body);padding:9px 18px;border:1px solid var(--border);border-radius:5px;cursor:pointer;white-space:nowrap">See Our Work</div>
+    <div class="site-cta">Start a Project</div>
+  </div>
+</div>
+<div class="hp" id="hpD">
+  <div class="hc"><div class="hct">Frameworks</div><div class="hl">How We Work</div><div class="hl">Brand → Innovation Journey</div><div class="hl">AI Readiness Assessment</div></div>
+  <div class="hc"><div class="hct">Resources</div><div class="hl">Blog / Articles</div><div class="hl">Research Reports</div><div class="hl">AI Readiness Assessment</div></div>
+  <div class="hc"><div class="hct">Company</div><div class="hl">About Us</div><div class="hl">Our Story</div><div class="hl">Awards</div><div class="hl">Client Portal</div></div>
+</div>
+<div class="sb"><div class="wf-label">Hero Section</div><div class="wf-line lg"></div><div class="wf-line lg" style="width:52%"></div><div class="wf-line md" style="margin-top:8px"></div><div class="wf-line sm"></div><div class="wf-btns"><div class="wf-btn"></div><div class="wf-btn fill"></div></div></div>
+</div>
+<div class="sm"><div class="sms"><div class="smst">Primary Nav Pages</div><div class="smg">
+<div class="smc hl"><h4>Home</h4><div class="si n">Pain-point hero</div><div class="si n">Tier cards</div><div class="si n">Journey visual</div><div class="si">Social proof</div></div>
+<div class="smc bl"><h4>Services</h4><div class="si n">By journey stage</div><div class="si n">AI Transformation (anchor)</div><div class="si">Software · Web · Marketing</div></div>
+<div class="smc hl"><h4>Industries</h4><div class="si n">Manufacturing & Industrial</div><div class="si n">Professional Services</div><div class="si n">Healthcare & Life Sciences</div><div class="si n">Financial Services</div><div class="si n">Associations & Nonprofits</div><div class="si n">B2B E-Commerce & Distribution</div><div class="si n">Real Estate & Property Mgmt</div><div class="si n">Education & Higher Ed</div></div>
+<div class="smc gl"><h4>Products</h4><div class="si p">Path Pilot · Sites · Hub</div><div class="si n">AI Readiness Assessment</div></div>
+<div class="smc"><h4>Our Approach</h4><div class="si n">4 pillars + Brand → Innovation</div><div class="si n">What makes us different</div><div class="si n">19 years of experience</div></div>
+</div></div><div class="sms"><div class="smst">Hamburger</div><div class="smg">
+<div class="smc"><h4>How We Work</h4><div class="si n">3 client tiers</div><div class="si n">Engagement process: Discovery → Strategy → Build → Support</div></div>
+<div class="smc"><h4>Case Studies</h4><div class="si">By stage · AI Labs</div></div>
+<div class="smc"><h4>About Us</h4><div class="si">Our Story + 19 yrs</div></div>
+<div class="smc"><h4>Blog</h4><div class="si">Content + GEO</div></div>
+</div></div></div>
+<div class="lg"><div class="li"><div class="ld h"></div>Key</div><div class="li"><div class="ld n"></div>New</div><div class="li"><div class="ld p"></div>Products</div></div>
+<div class="pr"><h3>Why Industries in the primary nav</h3><p>An Industries dropdown instantly signals vertical expertise to prospects. When a manufacturing CEO sees "Manufacturing & Industrial" in your nav, they know you understand their world — ERP integration, supply chain complexity, compliance. It filters out tire-kickers and attracts the right conversations. The 8 industries listed are based on your existing client base (healthcare, SaaS, nonprofits) plus high-opportunity verticals (manufacturing, financial services, real estate) where mid-market companies have the operational complexity and AI readiness gaps that Solid Digital is built to solve.</p>
+<h3>Why "Our Approach" alongside Industries</h3><p>Industries tells prospects <strong>you understand their world</strong>. Our Approach tells them <strong>how you'll work together</strong>. Together with Services and Products, the four nav items create a complete picture: what you do, who you do it for, what they can use, and why you're different. The dual CTAs handle proof (See Our Work) and conversion (Start a Project) without needing either in the nav.</p></div>
+</section>
+
+<script>
+function go(id){
+  document.querySelectorAll('.s').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  const m={ov:0,a:1,b:2,c:3,d:4};
+  if(m[id]!==undefined)document.querySelectorAll('.pill')[m[id]].classList.add('on');
+  document.querySelectorAll('.hp').forEach(p=>p.classList.remove('show'));
+  document.querySelectorAll('.hb').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.dd').forEach(d=>d.classList.remove('show'));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+let dt={};
+function showDD(id){clearTimeout(dt[id]);document.getElementById(id).classList.add('show')}
+function hideDD(id){dt[id]=setTimeout(()=>{document.getElementById(id).classList.remove('show')},120)}
+function tgl(pid,bid){
+  const p=document.getElementById(pid),b=document.getElementById(bid),o=p.classList.contains('show');
+  document.querySelectorAll('.hp').forEach(x=>x.classList.remove('show'));
+  document.querySelectorAll('.hb').forEach(x=>x.classList.remove('open'));
+  if(!o){p.classList.add('show');b.classList.add('open')}
+}
+document.addEventListener('click',e=>{if(!e.target.closest('.sl'))document.querySelectorAll('.dd').forEach(d=>d.classList.remove('show'))});
+</script>
+</body>
+</html>
